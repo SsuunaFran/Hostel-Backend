@@ -1,0 +1,15 @@
+{
+  "name": "hostel-backend",
+  "version": "1.0.0",
+  "description": "Hostel System Backend",
+  "main": "password.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SSUUNA FRANCIS, BUKOMA JUMA",
+  "license": "ISC",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "express": "^4.18.2"
+  }
+}
