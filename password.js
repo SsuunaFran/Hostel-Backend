@@ -15,6 +15,16 @@ function getPassword(password){
     }
 }
 
+function validatePassword(password,salt){
+    // hashing user password with the random salt
+    const validatehash=crypto.pbkdf2Sync(password,salt,1000,64,'sha512').toString('hex');
+
+    return {
+        hash:validatehash
+    }
+}
+
 module.exports={
     getPassword,
+    validatePassword
 }
