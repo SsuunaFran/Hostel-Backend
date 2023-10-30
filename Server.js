@@ -20,7 +20,7 @@ app.use(session({
     saveUninitialized: true,
     store: sessionStore,
     cookie: {
-        maxAge: 1000*60*2
+        maxAge: 1000*30
     }
   }))
   
@@ -37,6 +37,12 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use((req,res,next)=>{
+    console.log(req.session)
+    console.log(req.user)
+    next();
+})
+
+app.use((req,res,next)=>{
     // console.log(req.session)
     // console.log(req.user)
     next();
@@ -45,6 +51,7 @@ app.use((req,res,next)=>{
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.post('/login',passport.authenticate('local',{failureRedirect:'/notpermitted',successRedirect:'/permitted'}));
 app.post('/register',(req,res)=>{
 
     const Obj=pass.getPassword(req.body.pwd)
@@ -79,10 +86,8 @@ app.get('/loginpage',(req,res)=>{
 res.send(form)
 })
 
-app.post('/login',passport.authenticate('local',{failureRedirect:'/notpermitted',successRedirect:'/permitted'}));
-
 app.get('/register',(req,res)=>{
-    const form = `<form method="post" action="/login">
+    const form = `<form method="post" action="/register">
     <h1>REGISTER</h1>
     <label>Enter Username : <input type="text" name="uname"></label><br><br>
     <label>Enter Password : <input type="password" name="pwd"></label><br>
