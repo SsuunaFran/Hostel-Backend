@@ -2,9 +2,14 @@ const passport=require('passport');
 const LocalStrategy=require('passport-local').Strategy;
 const Password =require('./password');
 const connection=require('./database');
-const User = connection.models.User;
+const User = connection.models.Users;
 
-function Userdetails(username,password,done){  
+const customFields={
+    usernameField:"uname",
+    passwordField:"pwd"
+}
+
+const Userdetails = (username,password,done) => {  
     // Check if user exists in database 
     User.findOne({name:username},(err,User)=>{
         if(err){
@@ -26,4 +31,16 @@ function Userdetails(username,password,done){
     })
 }
 
-module.exports=Userdetails;
+const strategy=new LocalStrategy(customFields,Userdetails);
+
+passport.use(strategy)
+
+passport.serializeUser((user,done)=>{
+    done(null,user.id);
+})
+
+passport.deserializeUser((id,done)=>{
+    User.findById(id).then((user)=>{
+        done(null,user)
+    }).catch((err)=>done(err))
+})
