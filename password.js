@@ -1,8 +1,7 @@
 const crypto=require("crypto");
-
 //returning hashed user password
+
 function getPassword(password){
-    
     // creating random salt
     const salt=crypto.randomBytes(32).toString('hex');
 
@@ -26,5 +25,5 @@ function validatePassword(password,salt){
 
 module.exports={
     getPassword,
-    validatePassword
+    validatePassword,
 }
