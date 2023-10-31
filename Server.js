@@ -7,7 +7,7 @@ const pass=require("./password");
 const mongoose = require('mongoose');
 const session=require('express-session');
 const MongoStore = require('connect-mongo');
-
+const Auth = require('./auth').isAuth;
 
 const sessionStore= new MongoStore({
     mongoUrl:'mongodb://localhost:27017/Hostel',
@@ -72,8 +72,8 @@ app.get('/notpermitted',(req,res)=>{
     res.send(`<h1> Cant log you in</h1>`)
 })
 
-app.get('/permitted',(req,res)=>{
-    res.send(`<h1> Sucess you logged in </h1>`)
+app.get('/permitted',Auth,(req,res)=>{
+    res.send(`<h1> Sucess you logged in </h1><a href="/logout">LOGOUT</a>`)
 })
 
 app.get('/loginpage',(req,res)=>{
@@ -96,6 +96,16 @@ app.get('/register',(req,res)=>{
 res.send(form)
 })
 
+app.get('/logout',(req,res,next)=>{
+    req.logout((err)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.redirect('/loginpage')
+        }
+    });
+    
+})
 const PORT=process.env.PORT || 8090;
 app.listen(PORT,(req,res)=>{
     console.log(`App Listening on PORT ${PORT}`);
