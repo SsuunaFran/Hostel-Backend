@@ -15,7 +15,7 @@ const sessionStore= new MongoStore({
 })
 
 app.use(session({
-    secret: 'keyboard cat',
+    secret: 'hashitformeplease',
     resave: false,
     saveUninitialized: true,
     store: sessionStore,
